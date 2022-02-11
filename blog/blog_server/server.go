@@ -27,7 +27,7 @@ type blogItem struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty"`
 	AuthorID string             `bson:"author_id"`
 	Content  string             `bson:"content"`
-	Title    string             `bson:"title`
+	Title    string             `bson:"title"`
 }
 
 func (*server) CreateBlog(ctx context.Context, req *blogpb.CreateBlogRequest) (*blogpb.CreateBlogResponse, error) {
