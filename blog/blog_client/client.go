@@ -24,7 +24,8 @@ func main() {
 
 	// CreateBlog(c)
 	// ReadBlog(c)
-	UpdateBlog(c)
+	// UpdateBlog(c)
+	DeleteBlog(c)
 }
 
 func CreateBlog(c blogpb.BlogServiceClient) {
@@ -45,17 +46,9 @@ func CreateBlog(c blogpb.BlogServiceClient) {
 func ReadBlog(c blogpb.BlogServiceClient) {
 	blogID := "62065deeda61a5de179fba8b"
 
-	_, err := c.ReadBlog(context.Background(), &blogpb.ReadBlogRequest{
-		BlogId: blogID,
-	})
+	readBlogRes, err := c.ReadBlog(context.Background(), &blogpb.ReadBlogRequest{BlogId: blogID})
 	if err != nil {
-		log.Fatalf("Error happened while reading: %v\n", err)
-	}
-
-	readBlogReq := &blogpb.ReadBlogRequest{BlogId: blogID}
-	readBlogRes, readBlogErr := c.ReadBlog(context.Background(), readBlogReq)
-	if readBlogErr != nil {
-		fmt.Printf("Error happened while reading: %v\n", readBlogErr)
+		fmt.Printf("Error happened while reading: %v\n", err)
 	}
 
 	fmt.Printf("Blog was read: %v\n", readBlogRes)
@@ -71,11 +64,20 @@ func UpdateBlog(c blogpb.BlogServiceClient) {
 		Content:  "Content of the first blog, with some awesome additions!",
 	}
 
-	updateBlogReq := &blogpb.UpdateBlogRequest{Blog: newBlog}
-	updateRes, updateErr := c.UpdateBlog(context.Background(), updateBlogReq)
-	if updateErr != nil {
-		fmt.Printf("Error happened while reading: %v\n", updateErr)
+	updateRes, err := c.UpdateBlog(context.Background(), &blogpb.UpdateBlogRequest{Blog: newBlog})
+	if err != nil {
+		fmt.Printf("Error happened while reading: %v\n", err)
 	}
 
 	fmt.Printf("Blog was read: %v\n", updateRes)
+}
+
+func DeleteBlog(c blogpb.BlogServiceClient) {
+	blogID := "62066e044b729d3c4ca32d21"
+
+	deleteRes, err := c.DeleteBlog(context.Background(), &blogpb.DeleteBlogRequest{BlogId: blogID})
+	if err != nil {
+		fmt.Printf("Error happened while deleting %v \n", err)
+	}
+	fmt.Printf("Blog was deleted: %v \n", deleteRes)
 }
