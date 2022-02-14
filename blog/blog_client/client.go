@@ -22,8 +22,9 @@ func main() {
 
 	c := blogpb.NewBlogServiceClient(conn)
 
-	CreateBlog(c)
-	ReadBlog(c)
+	// CreateBlog(c)
+	// ReadBlog(c)
+	UpdateBlog(c)
 }
 
 func CreateBlog(c blogpb.BlogServiceClient) {
@@ -58,4 +59,23 @@ func ReadBlog(c blogpb.BlogServiceClient) {
 	}
 
 	fmt.Printf("Blog was read: %v\n", readBlogRes)
+}
+
+func UpdateBlog(c blogpb.BlogServiceClient) {
+	blogID := "62065deeda61a5de179fba8b"
+
+	newBlog := &blogpb.Blog{
+		Id:       blogID,
+		AuthorId: "Changed Author",
+		Title:    "My First Blog (edited)",
+		Content:  "Content of the first blog, with some awesome additions!",
+	}
+
+	updateBlogReq := &blogpb.UpdateBlogRequest{Blog: newBlog}
+	updateRes, updateErr := c.UpdateBlog(context.Background(), updateBlogReq)
+	if updateErr != nil {
+		fmt.Printf("Error happened while reading: %v\n", updateErr)
+	}
+
+	fmt.Printf("Blog was read: %v\n", updateRes)
 }
