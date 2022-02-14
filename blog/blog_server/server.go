@@ -173,6 +173,38 @@ func dataToBlogPB(data *blogItem) *blogpb.Blog {
 	}
 }
 
+func (*server) ListBlog(req *blogpb.ListBlogRequest, stream blogpb.BlogService_ListBlogServer) error {
+	fmt.Println("[blog][server][ListBlog] => BEGIN")
+
+	cur, err := collection.Find(context.Background(), bson.D{{}})
+	if err != nil {
+		return status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("[blog][server][DeleteBlog] => Unknown internal error: %v", err),
+		)
+	}
+	defer cur.Close(context.Background())
+
+	for cur.Next(context.Background()) {
+		data := &blogItem{}
+		err := cur.Decode(data)
+		if err != nil {
+			return status.Errorf(
+				codes.Internal,
+				fmt.Sprintf("[blog][server][DeleteBlog] => Error while decoding data from MongoDB: %v", err),
+			)
+		}
+		stream.Send(&blogpb.ListBlogResponse{Blog: dataToBlogPB(data)})
+	}
+	if err := cur.Err(); err != nil {
+		return status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("[blog][server][DeleteBlog] => Unknown internal error: %v", err),
+		)
+	}
+	return nil
+}
+
 func main() {
 	// if we crash the go code, we get the file name and line number
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
