@@ -23,10 +23,10 @@ func main() {
 
 	c := blogpb.NewBlogServiceClient(conn)
 
-	// CreateBlog(c)
-	// ReadBlog(c)
-	// UpdateBlog(c)
-	// DeleteBlog(c)
+	CreateBlog(c)
+	ReadBlog(c)
+	UpdateBlog(c)
+	DeleteBlog(c)
 	ListBlog(c)
 }
 
