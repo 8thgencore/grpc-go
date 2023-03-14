@@ -3,13 +3,12 @@ module github.com/8thgencore/grpc-go
 go 1.20
 
 require (
+	github.com/golang/protobuf v1.5.3
 	go.mongodb.org/mongo-driver v1.11.2
 	google.golang.org/grpc v1.53.0
-	google.golang.org/protobuf v1.29.0
 )
 
 require (
-	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/klauspost/compress v1.16.0 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
@@ -24,4 +23,5 @@ require (
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
 	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4 // indirect
+	google.golang.org/protobuf v1.29.1 // indirect
 )
